@@ -23,6 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        dd(request()->user()->tweetsFromFollowing->pluck('body'));
+
         return view('home');
     }
 }

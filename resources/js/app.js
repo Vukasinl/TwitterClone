@@ -10,9 +10,12 @@ window.Vue = require('vue').default;
 
 import Vuex from 'vuex';
 import timeline from './store/timeline';
-
+import VueObserveVisibility from 'vue-observe-visibility';
 
 Vue.use(Vuex);
+Vue.use(VueObserveVisibility);
+
+Vue.prototype.$user = User;
 
 /**
  * The following block of code may be used to automatically register your

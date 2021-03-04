@@ -13,7 +13,8 @@ class TimelineController extends Controller
     {
         $tweets = $request->user()
             ->tweetsFromFollowing()
-            ->paginate(5);
+            // ->latest()
+            ->paginate(6);
 
         return new TweetCollection($tweets);
     }

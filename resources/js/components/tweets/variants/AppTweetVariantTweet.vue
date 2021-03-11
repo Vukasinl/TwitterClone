@@ -9,13 +9,18 @@
     </div>
     <div class="flex-grow">
       <app-tweet-username :user="tweet.user" />
+
       <p class="text-gray-300 whitespace-pre-wrap">{{ tweet.body }}</p>
+
+      <app-tweet-action-group />
     </div>
   </div>
 </template>
 
 <script>
+import AppTweetActionGroup from '../actions/AppTweetActionGroup.vue';
 export default {
+  components: { AppTweetActionGroup },
   props: {
     tweet: {
       required: true,

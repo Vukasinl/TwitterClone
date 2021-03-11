@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Like;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Tweet extends Model
 {
@@ -19,5 +20,10 @@ class Tweet extends Model
     public function originalTweet()
     {
         return $this->hasOne(Tweet::class, 'id', 'original_tweet_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }

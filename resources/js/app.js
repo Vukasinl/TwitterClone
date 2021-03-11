@@ -10,6 +10,7 @@ window.Vue = require('vue').default;
 
 import Vuex from 'vuex';
 import timeline from './store/timeline';
+import likes from './store/likes';
 import VueObserveVisibility from 'vue-observe-visibility';
 
 Vue.use(Vuex);
@@ -32,7 +33,8 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 
 const store = new Vuex.Store({
   modules: {
-    timeline
+    timeline,
+    likes
   }
 });
 

@@ -2207,9 +2207,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _AppTweetLikeAction_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppTweetLikeAction.vue */ "./resources/js/components/tweets/actions/AppTweetLikeAction.vue");
-/* harmony import */ var _AppTweetReplyAction_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppTweetReplyAction.vue */ "./resources/js/components/tweets/actions/AppTweetReplyAction.vue");
-/* harmony import */ var _AppTweetRetweetAction_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AppTweetRetweetAction.vue */ "./resources/js/components/tweets/actions/AppTweetRetweetAction.vue");
 //
 //
 //
@@ -2224,14 +2221,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
-
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    AppTweetLikeAction: _AppTweetLikeAction_vue__WEBPACK_IMPORTED_MODULE_0__.default,
-    AppTweetRetweetAction: _AppTweetRetweetAction_vue__WEBPACK_IMPORTED_MODULE_2__.default,
-    AppTweetReplyAction: _AppTweetReplyAction_vue__WEBPACK_IMPORTED_MODULE_1__.default
+  props: {
+    tweet: {
+      required: true,
+      type: Object
+    }
   }
 });
 
@@ -2248,6 +2243,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2257,7 +2259,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    tweet: {
+      required: true,
+      type: Object
+    }
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
+    likes: 'likes/likes'
+  })), {}, {
+    liked: function liked() {
+      return this.likes.includes(this.tweet.id);
+    }
+  })
+});
 
 /***/ }),
 
@@ -2447,9 +2479,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _store_timeline__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store/timeline */ "./resources/js/store/timeline.js");
-/* harmony import */ var vue_observe_visibility__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-observe-visibility */ "./node_modules/vue-observe-visibility/dist/vue-observe-visibility.esm.js");
+/* harmony import */ var _store_likes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store/likes */ "./resources/js/store/likes.js");
+/* harmony import */ var vue_observe_visibility__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-observe-visibility */ "./node_modules/vue-observe-visibility/dist/vue-observe-visibility.esm.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -2461,8 +2494,9 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 
 
 
-Vue.use(vuex__WEBPACK_IMPORTED_MODULE_2__.default);
-Vue.use(vue_observe_visibility__WEBPACK_IMPORTED_MODULE_1__.default);
+
+Vue.use(vuex__WEBPACK_IMPORTED_MODULE_3__.default);
+Vue.use(vue_observe_visibility__WEBPACK_IMPORTED_MODULE_2__.default);
 Vue.prototype.$user = User;
 /**
  * The following block of code may be used to automatically register your
@@ -2478,9 +2512,10 @@ files.keys().map(function (key) {
   return Vue.component(key.split('/').pop().split('.')[0], files(key)["default"]);
 }); // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-var store = new vuex__WEBPACK_IMPORTED_MODULE_2__.default.Store({
+var store = new vuex__WEBPACK_IMPORTED_MODULE_3__.default.Store({
   modules: {
-    timeline: _store_timeline__WEBPACK_IMPORTED_MODULE_0__.default
+    timeline: _store_timeline__WEBPACK_IMPORTED_MODULE_0__.default,
+    likes: _store_likes__WEBPACK_IMPORTED_MODULE_1__.default
   }
 });
 /**
@@ -2544,6 +2579,50 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default({
   // enabledTransports: ['ws', 'wss'],
   wsHost: window.location.hostname,
   wsPort: 6001
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/likes.js":
+/*!*************************************!*\
+  !*** ./resources/js/store/likes.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  namespaced: true,
+  state: {
+    likes: []
+  },
+  getters: {
+    likes: function likes(state) {
+      return state.likes;
+    }
+  },
+  mutations: {
+    PUSH_LIKES: function PUSH_LIKES(state, data) {
+      var _state$likes;
+
+      (_state$likes = state.likes).push.apply(_state$likes, _toConsumableArray(data));
+    }
+  }
 });
 
 /***/ }),
@@ -2620,9 +2699,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               case 3:
                 response = _context.sent;
                 commit('PUSH_TWEETS', response.data.data);
+                commit('likes/PUSH_LIKES', response.data.meta.likes, {
+                  root: true
+                });
                 return _context.abrupt("return", response);
 
-              case 6:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -50165,11 +50247,16 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("ul", { staticClass: "flex mt-4" }, [
-    _c("li", { staticClass: "w-3/12" }, [_c("app-tweet-like-action")], 1),
+    _c("li", { staticClass: "w-3/12" }, [_c("app-tweet-reply-action")], 1),
     _vm._v(" "),
     _c("li", { staticClass: "w-3/12" }, [_c("app-tweet-retweet-action")], 1),
     _vm._v(" "),
-    _c("li", { staticClass: "w-3/12" }, [_c("app-tweet-reply-action")], 1)
+    _c(
+      "li",
+      { staticClass: "w-3/12" },
+      [_c("app-tweet-like-action", { attrs: { tweet: _vm.tweet } })],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -50203,6 +50290,9 @@ var render = function() {
         "svg",
         {
           staticClass: "fill-current text-gray-600 w-5 mr-2",
+          class: {
+            "text-red-600": _vm.liked
+          },
           attrs: {
             xmlns: "http://www.w3.org/2000/svg",
             viewBox: "0 0 24 24",
@@ -50214,13 +50304,22 @@ var render = function() {
           _c("path", {
             attrs: {
               d:
-                "M2 15V5c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v15a1 1 0 0 1-1.7.7L16.58 17H4a2 2 0 0 1-2-2zM20 5H4v10h13a1 1 0 0 1 .7.3l2.3 2.29V5z"
+                "M12.76 3.76a6 6 0 0 1 8.48 8.48l-8.53 8.54a1 1 0 0 1-1.42 0l-8.53-8.54a6 6 0 0 1 8.48-8.48l.76.75.76-.75zm7.07 7.07a4 4 0 1 0-5.66-5.66l-1.46 1.47a1 1 0 0 1-1.42 0L9.83 5.17a4 4 0 1 0-5.66 5.66L12 18.66l7.83-7.83z"
             }
           })
         ]
       ),
       _vm._v(" "),
-      _c("span", { staticClass: "text-gray-600" }, [_vm._v("0")])
+      _c(
+        "span",
+        {
+          staticClass: "text-gray-600",
+          class: {
+            "text-red-600": _vm.liked
+          }
+        },
+        [_vm._v("\n    " + _vm._s(_vm.tweet.likes_count) + "\n  ")]
+      )
     ]
   )
 }
@@ -50266,7 +50365,7 @@ var render = function() {
           _c("path", {
             attrs: {
               d:
-                "M12.76 3.76a6 6 0 0 1 8.48 8.48l-8.53 8.54a1 1 0 0 1-1.42 0l-8.53-8.54a6 6 0 0 1 8.48-8.48l.76.75.76-.75zm7.07 7.07a4 4 0 1 0-5.66-5.66l-1.46 1.47a1 1 0 0 1-1.42 0L9.83 5.17a4 4 0 1 0-5.66 5.66L12 18.66l7.83-7.83z"
+                "M2 15V5c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v15a1 1 0 0 1-1.7.7L16.58 17H4a2 2 0 0 1-2-2zM20 5H4v10h13a1 1 0 0 1 .7.3l2.3 2.29V5z"
             }
           })
         ]
@@ -50375,7 +50474,7 @@ var render = function() {
           attrs: { tweet: _vm.tweet.original_tweet }
         }),
         _vm._v(" "),
-        _c("app-tweet-action-group")
+        _c("app-tweet-action-group", { attrs: { tweet: _vm.tweet } })
       ],
       1
     )
@@ -50488,7 +50587,7 @@ var render = function() {
           _vm._v(_vm._s(_vm.tweet.body))
         ]),
         _vm._v(" "),
-        _c("app-tweet-action-group")
+        _c("app-tweet-action-group", { attrs: { tweet: _vm.tweet } })
       ],
       1
     )

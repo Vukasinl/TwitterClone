@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Like;
 use App\Models\Tweet;
+use App\Tweets\TweetType;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -77,5 +78,12 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function retweets()
+    {
+        return $this->hasMany(Tweet::class)
+            ->where('type', TweetType::RETWEET)
+            ->orWhere('type', TweetType::QUOTE);
     }
 }

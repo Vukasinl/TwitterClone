@@ -11,8 +11,8 @@ window.Vue = require('vue').default;
 import Vuex from 'vuex';
 import timeline from './store/timeline';
 import likes from './store/likes';
+import retweets from './store/retweets';
 import VueObserveVisibility from 'vue-observe-visibility';
-// import Echo from 'laravel-echo';
 
 Vue.use(Vuex);
 Vue.use(VueObserveVisibility);
@@ -35,7 +35,8 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 const store = new Vuex.Store({
   modules: {
     timeline,
-    likes
+    likes,
+    retweets
   }
 });
 

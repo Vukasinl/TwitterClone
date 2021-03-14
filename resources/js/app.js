@@ -58,4 +58,14 @@ Echo.channel('tweets')
     }
 
     store.commit('timeline/SET_LIKES', e);
+  })
+  .listen('.TweetRetweetsWereUpdated', (e) => {
+    if (e.user_id === User.id) {
+      store.dispatch('retweets/syncRetweet', e.id);
+    }
+
+    store.commit('timeline/SET_RETWEETS', e);
+  })
+  .listen('.TweetWasDeleted', (e) => {
+    store.commit('timeline/POP_TWEET', e.id);
   });

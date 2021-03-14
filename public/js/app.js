@@ -2507,6 +2507,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 
 
 
+ // import Echo from 'laravel-echo';
 
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_3__.default);
 Vue.use(vue_observe_visibility__WEBPACK_IMPORTED_MODULE_2__.default);
@@ -2540,6 +2541,13 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_3__.default.Store({
 var app = new Vue({
   el: '#app',
   store: store
+});
+Echo.channel('tweets').listen('.TweetLikesWereUpdated', function (e) {
+  if (e.user_id === User.id) {
+    store.dispatch('likes/syncLike', e.id);
+  }
+
+  store.commit('timeline/SET_LIKES', e);
 });
 
 /***/ }),
@@ -2611,6 +2619,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2630,6 +2640,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   namespaced: true,
   state: {
@@ -2645,6 +2656,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _state$likes;
 
       (_state$likes = state.likes).push.apply(_state$likes, _toConsumableArray(data));
+    },
+    PUSH_LIKE: function PUSH_LIKE(state, id) {
+      state.likes.push(id);
+    },
+    POP_LIKE: function POP_LIKE(state, id) {
+      state.likes = (0,lodash__WEBPACK_IMPORTED_MODULE_2__.without)(state.likes, id);
     }
   },
   actions: {
@@ -2681,6 +2698,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           }
         }, _callee2);
       }))();
+    },
+    syncLike: function syncLike(_ref, id) {
+      var commit = _ref.commit,
+          state = _ref.state;
+
+      if (state.likes.includes(id)) {
+        commit('POP_LIKE', id);
+        return;
+      }
+
+      commit('PUSH_LIKE', id);
     }
   }
 });
@@ -2742,17 +2770,28 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           return t.id;
         }).includes(tweet.id);
       })));
+    },
+    SET_LIKES: function SET_LIKES(state, _ref) {
+      var id = _ref.id,
+          count = _ref.count;
+      state.tweets = state.tweets.map(function (t) {
+        if (t.id === id) {
+          t.likes_count = count;
+        }
+
+        return t;
+      });
     }
   },
   actions: {
-    getTweets: function getTweets(_ref, url) {
+    getTweets: function getTweets(_ref2, url) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var commit, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref.commit;
+                commit = _ref2.commit;
                 _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default().get(url);
 

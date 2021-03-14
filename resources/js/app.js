@@ -12,6 +12,7 @@ import Vuex from 'vuex';
 import timeline from './store/timeline';
 import likes from './store/likes';
 import VueObserveVisibility from 'vue-observe-visibility';
+// import Echo from 'laravel-echo';
 
 Vue.use(Vuex);
 Vue.use(VueObserveVisibility);
@@ -48,3 +49,12 @@ const app = new Vue({
   el: '#app',
   store
 });
+
+Echo.channel('tweets')
+  .listen('.TweetLikesWereUpdated', (e) => {
+    if(e.user_id === User.id){
+      store.dispatch('likes/syncLike', e.id);
+    }
+
+    store.commit('timeline/SET_LIKES', e);
+  });

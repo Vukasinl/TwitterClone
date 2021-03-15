@@ -1,17 +1,33 @@
 <template>
   <form class="flex " method="POST" @submit.prevent="submit">
-    <div class="mr-3">
-        <img class="w-12 rounded-full" :src="$user.avatar">
-    </div>
+    <img class="w-12 h-12 mr-3 rounded-full" :src="$user.avatar">
+
     <div class="flex-grow">
       <app-tweet-compose-textarea
         v-model="form.body"
       />
 
-      <div class="flex justify-between">
-        <div>
+      <app-tweet-image-preview
+        :images="media.images"
+        v-if="media.images.length"
+        @removed="removeImage"
+      />
 
-        </div>
+      <app-tweet-video-preview
+        :video="media.video"
+        v-if="media.video"
+        @removed="removeVideo"
+      />
+
+      <div class="flex justify-between">
+        <ul class="flex items-center">
+          <li class="mr-4">
+            <app-tweet-compose-media-button
+              id="media-compose"
+              @selected="handleMediaSelected"
+            />
+          </li>
+        </ul>
 
         <div class="flex items-center justify-end">
           <div>
@@ -41,8 +57,16 @@ export default {
   data() {
     return {
       form: {
-        body: ''
-      }
+        body: '',
+        media: []
+      },
+
+      media: {
+        images: [],
+        video: null
+      },
+
+      mediaTypes: {}
     }
   },
 
@@ -51,7 +75,44 @@ export default {
       await axios.post('/api/tweets', this.form);
 
       this.form.body = '';
+    },
+
+    removeVideo() {
+      this.media.video = null;
+    },
+
+    removeImage(image) {
+      this.media.images = this.media.images.filter((i) => {
+        return image !== i;
+      });
+    },
+
+    async getMediaTypes() {
+      let response = await axios.get('api/media/types');
+
+      this.mediaTypes = response.data.data;
+    },
+
+    handleMediaSelected(files) {
+      Array.from(files).slice(0, 4).forEach((file) => {
+        if(this.mediaTypes.image.includes(file.type)) {
+          this.media.images.push(file);
+        }
+
+        if(this.mediaTypes.video.includes(file.type)) {
+          this.media.video = file;
+        }
+      });
+
+      if(this.media.video){
+        this.media.images = [];
+      }
     }
+
   },
+
+  mounted() {
+    this.getMediaTypes();
+  }
 }
 </script>

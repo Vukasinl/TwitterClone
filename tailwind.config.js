@@ -17,7 +17,8 @@ module.exports = {
   },
   variants: {
     extend: {
-      textColor: ['important']
+      textColor: ['important'],
+      backgroundColor: ['important']
     },
   },
   plugins: [

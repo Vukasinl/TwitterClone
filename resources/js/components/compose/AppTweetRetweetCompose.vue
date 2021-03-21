@@ -33,6 +33,7 @@
 
 <script>
 import axios from 'axios';
+import { mapActions } from 'vuex';
 import compose from '../../mixins/compose';
 
 export default {
@@ -40,9 +41,25 @@ export default {
     compose
   ],
 
+  props: {
+    tweet: {
+      required: true,
+      type: Object
+    }
+  },
+
   methods: {
+    ...mapActions({
+      quoteTweet: 'timeline/quoteTweet'
+    }),
+
     async post() {
-      // create retweet with a comment
+      await this.quoteTweet({
+        tweet: this.tweet,
+        data: this.form
+      });
+
+      this.$emit('success');
     }
   }
 }

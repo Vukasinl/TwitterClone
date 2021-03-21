@@ -53,6 +53,7 @@
 
 <script>
 import axios from 'axios';
+import { mapActions } from 'vuex';
 import compose from '../../mixins/compose';
 
 export default {
@@ -68,8 +69,17 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      replyToTweet: 'timeline/replyToTweet'
+    }),
+
     async post() {
-      // todo
+      await this.replyToTweet({
+        tweet: this.tweet,
+        data: this.form
+      });
+
+      this.$emit('success');
     }
   }
 }

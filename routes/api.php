@@ -5,6 +5,8 @@
 
 Route::post('/tweets', [App\Http\Controllers\Api\Tweets\TweetController::class, 'store'])->name('tweets.store');
 
+Route::post('/tweets/{tweet}/replies', [App\Http\Controllers\Api\Tweets\TweetReplyController::class, 'store'])->name('replies.store');
+
 Route::post('/tweets/{tweet}/likes', [App\Http\Controllers\Api\Tweets\TweetLikeController::class, 'store'])->name('likes.store');
 Route::delete('/tweets/{tweet}/likes', [App\Http\Controllers\Api\Tweets\TweetLikeController::class, 'destroy'])->name('likes.destroy');
 

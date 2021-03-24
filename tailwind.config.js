@@ -18,7 +18,8 @@ module.exports = {
   variants: {
     extend: {
       textColor: ['important'],
-      backgroundColor: ['important']
+      backgroundColor: ['important'],
+      borderWidth: ['important']
     },
   },
   plugins: [

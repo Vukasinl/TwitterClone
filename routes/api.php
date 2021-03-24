@@ -3,6 +3,7 @@
 
 Route::get('/timeline', [App\Http\Controllers\Api\Timeline\TimelineController::class, 'index'])->name('timeline.index');
 
+Route::get('/tweets', [App\Http\Controllers\Api\Tweets\TweetController::class, 'index'])->name('tweets.index');
 Route::post('/tweets', [App\Http\Controllers\Api\Tweets\TweetController::class, 'store'])->name('tweets.store');
 
 Route::post('/tweets/{tweet}/replies', [App\Http\Controllers\Api\Tweets\TweetReplyController::class, 'store'])->name('replies.store');

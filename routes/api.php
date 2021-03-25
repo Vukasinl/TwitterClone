@@ -1,7 +1,7 @@
 <?php
 
 
-Route::get('/timeline', [App\Http\Controllers\Api\Timeline\TimelineController::class, 'index'])->name('timeline.index');
+// Route::get('/timeline', [App\Http\Controllers\Api\Timeline\TimelineController::class, 'index'])->name('timeline.index');
 
 Route::get('/tweets', [App\Http\Controllers\Api\Tweets\TweetController::class, 'index'])->name('tweets.index');
 Route::post('/tweets', [App\Http\Controllers\Api\Tweets\TweetController::class, 'store'])->name('tweets.store');
@@ -19,4 +19,4 @@ Route::post('/tweets/{tweet}/quotes', [App\Http\Controllers\Api\Tweets\TweetQuot
 Route::post('/media', [App\Http\Controllers\Api\Media\MediaController::class, 'store'])->name('media.store');
 Route::get('/media/types', [App\Http\Controllers\Api\Media\MediaTypesController::class, 'index'])->name('media.types.index');
 
-// Route::get('/notifications', [App\Http\Controllers\Api\Notifications\NotificationController::class, 'index']);
+Route::get('/notifications', [App\Http\Controllers\Api\Notifications\NotificationController::class, 'index']);

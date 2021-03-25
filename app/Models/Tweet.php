@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\Like;
+use App\Models\Entity;
 use App\Models\TweetMedia;
+use App\Tweets\Entities\EntityExtractor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +15,15 @@ class Tweet extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function (Tweet $tweet) {
+            $tweet->entities()->createMany((new EntityExtractor($tweet->body))->getHashTagEntities());
+        });
+    }
 
     public function scopeParent(Builder $query)
     {
@@ -52,5 +63,10 @@ class Tweet extends Model
     public function replies()
     {
         return $this->hasMany(Tweet::class, 'parent_id');
+    }
+
+    public function entities()
+    {
+        return $this->hasMany(Entity::class);
     }
 }

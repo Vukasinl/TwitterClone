@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api\Tweets;
 
+use App\Models\Tweet;
 use App\Tweets\TweetType;
 use App\Models\TweetMedia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Events\Tweets\TweetWasCreated;
-use App\Http\Requests\Tweets\TweetStoreRequest;
 use App\Http\Resources\TweetCollection;
-use App\Models\Tweet;
+use App\Notifications\Tweets\TweetMentionedIn;
+use App\Http\Requests\Tweets\TweetStoreRequest;
 
 class TweetController extends Controller
 {
@@ -46,6 +47,12 @@ class TweetController extends Controller
         foreach ($request->media as $id) {
             $tweet->media()->save(TweetMedia::find($id));
         }
+
+        $tweet->mentions->users()->each(function ($user) use($request, $tweet) {
+            if ($request->user()->id !== $user->id) {
+                $user->notify(new TweetMentionedIn($request->user(), $tweet));
+            }
+        });
 
         broadcast(new TweetWasCreated($tweet));
     }

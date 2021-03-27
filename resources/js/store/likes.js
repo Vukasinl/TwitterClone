@@ -28,11 +28,11 @@ export default {
 
   actions: {
     async likeTweet(_, tweet) {
-      await axios.post(`api/tweets/${tweet.id}/likes`)
+      await axios.post(`/api/tweets/${tweet.id}/likes`)
     },
 
     async unlikeTweet(_, tweet) {
-      await axios.delete(`api/tweets/${tweet.id}/likes`)
+      await axios.delete(`/api/tweets/${tweet.id}/likes`)
     },
 
     syncLike ({ commit, state }, id) {

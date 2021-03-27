@@ -3651,6 +3651,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3763,6 +3767,7 @@ Echo.channel('tweets').listen('.TweetLikesWereUpdated', function (e) {
 
   store.commit('timeline/SET_LIKES', e);
   store.commit('notifications/SET_LIKES', e);
+  store.commit('conversation/SET_LIKES', e);
 }).listen('.TweetRetweetsWereUpdated', function (e) {
   if (e.user_id === User.id) {
     store.dispatch('retweets/syncRetweet', e.id);
@@ -3770,9 +3775,11 @@ Echo.channel('tweets').listen('.TweetLikesWereUpdated', function (e) {
 
   store.commit('timeline/SET_RETWEETS', e);
   store.commit('notifications/SET_RETWEETS', e);
+  store.commit('conversation/SET_RETWEETS', e);
 }).listen('.TweetRepliesWereUpdated', function (e) {
   store.commit('timeline/SET_REPLIES', e);
   store.commit('notifications/SET_REPLIES', e);
+  store.commit('conversation/SET_REPLIES', e);
 }).listen('.TweetWasDeleted', function (e) {
   store.commit('timeline/POP_TWEET', e.id);
 });
@@ -4134,7 +4141,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("api/tweets/".concat(tweet.id, "/likes"));
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/tweets/".concat(tweet.id, "/likes"));
 
               case 2:
               case "end":
@@ -4151,7 +4158,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default().delete("api/tweets/".concat(tweet.id, "/likes"));
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().delete("/api/tweets/".concat(tweet.id, "/likes"));
 
               case 2:
               case "end":
@@ -4342,7 +4349,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.post("api/tweets/".concat(tweet.id, "/retweets"));
+                return axios.post("/api/tweets/".concat(tweet.id, "/retweets"));
 
               case 2:
               case "end":
@@ -4359,7 +4366,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios["delete"]("api/tweets/".concat(tweet.id, "/retweets"));
+                return axios["delete"]("/api/tweets/".concat(tweet.id, "/retweets"));
 
               case 2:
               case "end":
@@ -55311,6 +55318,15 @@ var render = function() {
       { staticClass: "flex-grow" },
       [
         _c("app-tweet-username", { attrs: { user: _vm.tweet.user } }),
+        _vm._v(" "),
+        _vm.tweet.replying_to
+          ? _c("div", { staticClass: "text-gray-600 mb-2" }, [
+              _vm._v("\n      Replying to "),
+              _c("a", { attrs: { href: "#" } }, [
+                _vm._v("@" + _vm._s(_vm.tweet.replying_to))
+              ])
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("app-tweet-body", { attrs: { tweet: _vm.tweet } }),
         _vm._v(" "),

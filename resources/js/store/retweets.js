@@ -27,11 +27,11 @@ export default {
 
   actions: {
     async retweetTweet(_, tweet) {
-      await axios.post(`api/tweets/${tweet.id}/retweets`)
+      await axios.post(`/api/tweets/${tweet.id}/retweets`)
     },
 
     async unretweetTweet(_, tweet) {
-      await axios.delete(`api/tweets/${tweet.id}/retweets`)
+      await axios.delete(`/api/tweets/${tweet.id}/retweets`)
     },
 
     syncRetweet({ commit, state }, id) {

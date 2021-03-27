@@ -1,11 +1,13 @@
 <?php
 
 
-// Route::get('/timeline', [App\Http\Controllers\Api\Timeline\TimelineController::class, 'index'])->name('timeline.index');
+Route::get('/timeline', [App\Http\Controllers\Api\Timeline\TimelineController::class, 'index'])->name('timeline.index');
 
 Route::get('/tweets', [App\Http\Controllers\Api\Tweets\TweetController::class, 'index'])->name('tweets.index');
+Route::get('/tweets/{tweet}', [App\Http\Controllers\Api\Tweets\TweetController::class, 'show'])->name('tweets.show');
 Route::post('/tweets', [App\Http\Controllers\Api\Tweets\TweetController::class, 'store'])->name('tweets.store');
 
+Route::get('/tweets/{tweet}/replies', [App\Http\Controllers\Api\Tweets\TweetReplyController::class, 'show'])->name('replies.show');
 Route::post('/tweets/{tweet}/replies', [App\Http\Controllers\Api\Tweets\TweetReplyController::class, 'store'])->name('replies.store');
 
 Route::post('/tweets/{tweet}/likes', [App\Http\Controllers\Api\Tweets\TweetLikeController::class, 'store'])->name('likes.store');

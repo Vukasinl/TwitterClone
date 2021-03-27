@@ -13,6 +13,7 @@ import timeline from './store/timeline';
 import likes from './store/likes';
 import retweets from './store/retweets';
 import notifications from './store/notifications';
+import conversation from './store/conversation';
 import VueObserveVisibility from 'vue-observe-visibility';
 import VModal from 'vue-js-modal';
 
@@ -48,7 +49,8 @@ const store = new Vuex.Store({
     timeline,
     likes,
     retweets,
-    notifications
+    notifications,
+    conversation
   }
 });
 
